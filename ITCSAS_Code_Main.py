@@ -5,7 +5,14 @@ import busio
 import digitalio
 import adafruit_max31855
 import adafruit_character_lcd.character_lcd_rgb_i2c as character_lcd
+import MLX90640
 import ITCSAS_Config as cfg
+
+# Define IR Camera
+cam = MLX90640.MLX90640('0x33')
+
+#To get readings from 32x24 pixel array, where (i,j) are coordiates of a pixel:
+#cam.getCompensatedPixData(i,j)
 
 # Define Pins For Thermocouple Amplifier Communication
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
@@ -13,8 +20,8 @@ cs = digitalio.DigitalInOut(board.D5)
 amp = adafruit_max31855.MAX31855(spi, cs)
 
 # Define LCD Row/Column Numbers -- 2 Rows of 16 Columns Each
-lcd_columns = 16
-lcd_rows = 2
+lcd_columns = cfg.dispColumn
+lcd_rows = cfg.dispRow
 
 # Initialise I2C bus
 i2c = busio.I2C(board.SCL, board.SDA)
