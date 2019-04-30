@@ -7,15 +7,15 @@
 #--------------------------------------------------------------------#
 
 # Set Camera Resolution
-camXRes = 36	# Width
-camYRes = 24	# Height
+camXRes = 32	# Width (columns)
+camYRes = 24	# Height (rows)
 
 #--------------------------------------------------------------------#
 # LCD/Display Settings
 #--------------------------------------------------------------------#
 
 # Set RGB Display Color 
-dispColor = [255,255,255]	# [RED,GREEN,BLUE] (0-255)
+defaultDisplayColor = [100,100,100]	# [RED,GREEN,BLUE] (0-100)
 	
 # Set Temperature Format - Celsius, Fahrenheit, or Kelvin
 dispTempFormat = 0	# 0 for °C, 1 for °F, 2 for K
@@ -33,4 +33,4 @@ numAvg = 2
 # Set Time Between Readings
 timeAvg = 15
 # Set Temperature Adjustment Offset
-tempOffset = 0
+tempOffset = -23

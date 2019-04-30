@@ -5,14 +5,7 @@ import busio
 import digitalio
 import adafruit_max31855
 import adafruit_character_lcd.character_lcd_rgb_i2c as character_lcd
-import MLX90640
 import ITCSAS_Config as cfg
-
-# Define IR Camera
-cam = MLX90640.MLX90640('0x33')
-
-#To get readings from 32x24 pixel array, where (i,j) are coordiates of a pixel:
-#cam.getCompensatedPixData(i,j)
 
 # Define Pins For Thermocouple Amplifier Communication
 spi = busio.SPI(board.SCK, MOSI=board.MOSI, MISO=board.MISO)
@@ -35,10 +28,10 @@ lcd.clear()
 while True:  
 	# Take about 30 seconds to take 2 temperature readings 15 seconds apart and average them.
 	tempSum = 0
-	for x in range(numAvg+1):
+	for x in range(cfg.numAvg+1):
 		tempSum = tempSum+amp.temperature
 		time.sleep(cfg.timeAvg)  # Wait between readings
-	tempAvg = tempSum/numAvg  # Calculate average
+	tempAvg = tempSum/cfg.numAvg  # Calculate average
 
 	tempC = tempAvg+cfg.tempOffset  # Adjust temperature based on value defined in config
 
@@ -52,13 +45,13 @@ while True:
     #print('Temperature: {} C {} F {} K'.format(tempC, tempF, tempK))
 	
 	if cfg.dispTempFormat == 1:
-		dispTemp = round(tempF,1)
+		dispTemp = (str(round(tempF,1))+"°F\n")
 	else:
 		if cfg.dispTempFormat == 2:
-			dispTemp = round(tempK,1)
+			dispTemp = (str(round(tempK,1))+" K\n")
 		else:
-			dispTemp = round(tempC,1)
+			dispTemp = (str(round(tempC,1))+"°C\n")
 			
 	lcd.color = cfg.defaultDisplayColor
-	lcdText = ("Temp.: "+dispTemp+"°C\n"+"LINE 2")
+	lcdText = ("Temp.: "+dispTemp+"LINE 2")
 	lcd.message = lcdText
